@@ -1,0 +1,18 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss(),  // Tailwind v4 Vite plugin — no postcss or config file needed
+  ],
+  base: './',
+  server: {
+    port: 5173,
+    strictPort: true,
+  },
+  build: {
+    outDir: 'dist',
+  },
+});

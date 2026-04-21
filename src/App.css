@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/*
+ * Tailwind CSS v4 — CSS-first configuration
+ * Instead of tailwind.config.js, we define our design tokens here using @theme.
+ * This gives us custom utility classes like bg-base-primary, text-txt-muted, etc.
+ */
+@theme {
+  /* Color palette — dark theme */
+  --color-base-primary: #1e1e2e;
+  --color-base-secondary: #181825;
+  --color-base-surface: #242438;
+  --color-base-hover: #2a2a3d;
+  --color-base-active: #313148;
+
+  --color-txt-primary: #cdd6f4;
+  --color-txt-secondary: #a6adc8;
+  --color-txt-muted: #6c7086;
+
+  --color-accent: #89b4fa;
+  --color-accent-hover: #74c7ec;
+
+  --color-border: #313244;
+  --color-folder: #f9e2af;
+  --color-file: #89b4fa;
+
+  --color-match-bg: rgba(250, 179, 135, 0.25);
+  --color-match-text: #fab387;
+
+  /* Typography */
+  --font-sans: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs-custom: 0.8125rem;
+
+  /* Custom animation */
+  --animate-slide-down: slide-down 200ms ease forwards;
+
+  @keyframes slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Global base styles */
+body {
+  @apply bg-base-primary text-txt-primary font-sans text-sm leading-relaxed overflow-hidden antialiased;
+}
+
+/* Custom scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: var(--color-base-primary);
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #45475a;
+  border-radius: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--color-txt-muted);
+}

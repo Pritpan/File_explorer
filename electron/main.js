@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
-const path = require('path');
-const fs = require('fs/promises');
-const os = require('os');
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { join, extname } from 'path';
+import { readdir, stat as _stat, readFile, access } from 'fs/promises';
+import { homedir } from 'os';
 
 // Keep a global reference to prevent garbage collection
 let mainWindow = null;
@@ -13,7 +13,7 @@ function createWindow() {
     minWidth: 600,
     minHeight: 400,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: join(__dirname, 'preload.js'),
       contextIsolation: true,   // Security: isolate renderer from Node.js
       nodeIntegration: false,    // Security: no direct Node access in renderer
     },
@@ -32,7 +32,7 @@ function createWindow() {
     loadDevServer();
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+    mainWindow.loadFile(join(__dirname, '..', 'dist', 'index.html'));
   }
 
   mainWindow.on('closed', () => {
@@ -51,7 +51,7 @@ function createWindow() {
  */
 ipcMain.handle('fs:readDirectory', async (_event, dirPath) => {
   try {
-    const entries = await fs.readdir(dirPath, { withFileTypes: true });
+    const entries = await readdir(dirPath, { withFileTypes: true });
 
     const result = entries
       .filter((entry) => {
@@ -93,8 +93,8 @@ const BINARY_EXTENSIONS = new Set([
 
 ipcMain.handle('fs:readFile', async (_event, filePath) => {
   try {
-    const stat = await fs.stat(filePath);
-    const ext = path.extname(filePath).slice(1).toLowerCase();
+    const stat = await _stat(filePath);
+    const ext = extname(filePath).slice(1).toLowerCase();
     const isBinary = BINARY_EXTENSIONS.has(ext);
     const isTooBig = stat.size > MAX_FILE_SIZE;
 
@@ -107,7 +107,7 @@ ipcMain.handle('fs:readFile', async (_event, filePath) => {
     };
 
     if (!isBinary && !isTooBig) {
-      result.content = await fs.readFile(filePath, 'utf-8');
+      result.content = await readFile(filePath, 'utf-8');
     }
 
     return result;
@@ -122,7 +122,7 @@ ipcMain.handle('fs:readFile', async (_event, filePath) => {
  * fs:getHomePath — return the user's home directory path.
  */
 ipcMain.handle('fs:getHomePath', () => {
-  return os.homedir();
+  return homedir();
 });
 
 /**
@@ -148,7 +148,7 @@ ipcMain.handle('fs:getDrives', async () => {
     const letter = String.fromCharCode(i);
     const drivePath = `${letter}:\\`;
     try {
-      await fs.access(drivePath);
+      await access(drivePath);
       drives.push(drivePath);
     } catch {
       // Drive doesn't exist, skip

@@ -56,6 +56,8 @@ export const mockLocalTree = {
   ],
 };
 
+// ─── Cloud (S3) — DISABLED. Re-enable for Step 4 (AWS S3 integration) ───
+/*
 export const mockCloudTree = {
   name: 'Cloud (S3)',
   type: 'folder',
@@ -86,3 +88,4 @@ export const mockCloudTree = {
     { name: 'README.md', type: 'file' },
   ],
 };
+*/

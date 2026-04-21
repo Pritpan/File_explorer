@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Production-level File Explorer Desktop Application",
   "main": "electron/main.js",
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"cross-env BROWSER=none vite\" \"cross-env NODE_ENV=development electron .\"",
     "build": "vite build",

@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+import { contextBridge, ipcRenderer } from 'electron';
 
 // Expose a safe API to the renderer process
 // This is the ONLY bridge between React (frontend) and Node.js (backend)

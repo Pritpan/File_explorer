@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { mockCloudTree } from '../data/mockData';
+// import { mockCloudTree } from '../data/mockData';  // DISABLED — Re-enable for Step 4 (AWS S3)
 import { searchTree } from '../utils/searchTree';
 
 /**
@@ -12,7 +12,8 @@ import { searchTree } from '../utils/searchTree';
  * Cloud root stays as mock data (will be replaced in Step 4 with S3).
  */
 const useTreeStore = create((set, get) => ({
-  // Tree data — Local root loaded from filesystem, Cloud stays mock
+  // Tree data — Local root loaded from filesystem
+  // Cloud (S3) root is disabled. Re-enable for Step 4 (AWS S3 integration).
   treeData: [
     {
       name: 'Local',
@@ -20,7 +21,7 @@ const useTreeStore = create((set, get) => ({
       children: null,     // null = not loaded yet (lazy)
       _fsPath: null,      // actual filesystem path, set on init
     },
-    mockCloudTree,
+    // mockCloudTree,  // DISABLED — Re-enable for Step 4
   ],
 
   // Tracks which folders are expanded
@@ -84,10 +85,10 @@ const useTreeStore = create((set, get) => ({
         _fsPath: drivePath,
       }));
 
-      set((state) => {
-        // Replace the Local placeholder with drive nodes, keep Cloud
-        const cloud = state.treeData.find((r) => r.name === 'Cloud (S3)');
-        return { treeData: [...driveNodes, ...(cloud ? [cloud] : [])] };
+      set(() => {
+        // Replace the Local placeholder with drive nodes
+        // Cloud (S3) disabled — re-enable here for Step 4
+        return { treeData: driveNodes };
       });
     } catch (err) {
       console.error('Failed to init drives:', err);

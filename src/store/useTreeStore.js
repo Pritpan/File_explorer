@@ -141,7 +141,7 @@ const useTreeStore = create((set, get) => ({
 
       // Splice children into the tree at treePath
       set((s) => {
-        const newTree = JSON.parse(JSON.stringify(s.treeData));
+        const newTree = structuredClone(s.treeData);
         const node = findNodeByPath(newTree, treePath);
         if (node) {
           node.children = children;

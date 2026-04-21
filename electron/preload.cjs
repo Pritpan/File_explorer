@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+const { contextBridge, ipcRenderer } = require('electron');
 
 // Expose a safe API to the renderer process
 // This is the ONLY bridge between React (frontend) and Node.js (backend)
@@ -21,4 +21,3 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Placeholder for S3 (Step 4):
   // getS3Files: (bucket, prefix) => ipcRenderer.invoke('s3:listObjects', bucket, prefix),
 });
-
